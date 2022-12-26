@@ -10,12 +10,11 @@
 #include "distances.h"
 #include "knn.h"
 using namespace std;
-#define PORT 5555
 
 
-int main()
+int main(int argc, char* argv[])
 {
-	const int server_port = 5555;
+	const int server_port = stoi(argv[2]);
 	int sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock < 0)
 	{
@@ -54,13 +53,24 @@ int main()
 	}
 	else
 	{
+		string s = buffer;
+		//get place of last
+		auto pk = s.find_last_of(" ");
+		//get the last str
+		int k = stod(s.substr(pk));
+		//get pace pf one before last
+		auto pd = s.substr(0, pk).find_last_of(" ");
+		//get one before last str
+		string dist = s.substr(1, pk-1).substr(pd);
+
 		vector<double> vec1;
-		//string text;
-		vec1 = split(buffer, ' ');
-		for (double n : vec1)
-		{
-        	std::cout << n << ", ";
-		}
+		vec1 = split(s.substr(0, pd-1), ' ');
+		string path = argv[1];
+		std::pair<vector<vector<double>>, vector<string>> zug;
+		zug = readFileToVectors(path);
+    	auto X = zug.first;
+    	auto y = zug.second;
+		DistanceCalculator* dc = createDistCalc(dist);
 		knn prediction_x(k, X, y, dc, vec1);
         vector<double> dis = prediction_x.getDistances();
         vector<string> k_tags = prediction_x.neighborsLabels(dis);

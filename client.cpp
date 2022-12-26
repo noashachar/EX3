@@ -6,9 +6,18 @@
 #include <unistd.h>
 #include <string.h>
 
+std::string toStr(char* a, int size)
+{
+    int i;
+    std::string s = "";
+    for (i = 1;i < size;i++) {
+        s = s + a[i];
+    }
+    return s;
+}
 
 using namespace std;
-int main2()
+int main(int argc, char* argv[])
 {
     const char* ip_address = "127.0.0.1";
     const int port_no = 5555;
@@ -22,13 +31,14 @@ int main2()
     sin.sin_family = AF_INET;
     sin.sin_addr.s_addr = inet_addr(ip_address);
     sin.sin_port = htons(port_no);
-    if (connect(sock, (struct sockaddr*)& sin, sizeof(sin)) < 0)
+    if (connect(sock, (struct sockaddr*)&sin, sizeof(sin)) < 0)
     {
         perror("error connecting to server");
     }
-    char data_addr[] = "1 2 3 4";
-    int data_len = strlen(data_addr);
-    int sent_bytes = send(sock, data_addr, data_len, 0);
+    string text;
+    getline(cin, text);
+   
+    int sent_bytes =  send(sock, text.c_str(), text.size(), 0);
     if (sent_bytes < 0)
     {
         // error 

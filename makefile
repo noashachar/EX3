@@ -1,8 +1,16 @@
-a.out: main.o distances.o utils.o knn.o
-	g++ -std=c++11 main.o distances.o utils.o knn.o -o a.out
+all: server TcpClient
 
-main.o: main.cpp
-	 g++ -std=c++11 -c main.cpp
+TcpClient: TcpClient.cpp TcpClient.h
+	 g++ -std=c++11 TcpClient.cpp -o TcpClient.out
+
+TcpClient.o: TcpClient.cpp
+	 g++ -std=c++11 -c TcpClient.cpp
+
+server: server.o distances.o utils.o knn.o
+	 g++ -std=c++11 server.o distances.o utils.o knn.o -o server.out
+
+server.o: server.cpp server.h
+	 g++ -std=c++11 -c server.cpp
 
 distances.o: distances.cpp distances.h
 	 g++ -std=c++11 -c distances.cpp
@@ -14,4 +22,4 @@ knn.o: knn.cpp knn.h
 	 g++ -std=c++11 -c knn.cpp
 
 clean:
-	 rm *.o a.out
+	 rm -f *.o

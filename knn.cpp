@@ -18,6 +18,17 @@ knn::knn(int k, vector<vector<double>> &X,vector<string> &y, DistanceCalculator 
     t = input_vec;
 }
 
+knn::knn(vector<vector<double>> &X,vector<string> &y){
+    knnX = X;
+    knnY = y;
+}
+
+void knn::prepareKnn(int k, DistanceCalculator *distance, vector<double> input_vec){
+    knnK = k;
+    dis = distance;
+    t = input_vec;
+}
+
 //return Distances between self vector to data vectors as a arr
 //by the name of the distance func that required from the terminal
 vector<double> knn::getDistances(){

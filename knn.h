@@ -18,6 +18,8 @@ class knn {
         std::vector<double> t;
     public:
     knn(int k, std::vector<std::vector<double>> &X,std::vector<std::string> &y, DistanceCalculator *distance, std::vector<double> input_vec);
+    knn(std::vector<std::vector<double>> &X,std::vector<std::string> &y);
+    void prepareKnn(int k, DistanceCalculator *distance, std::vector<double> input_vec);
     std::vector<double> getDistances();
     std::vector<std::string> neighborsLabels(std::vector<double> distances);
     std::string getBetterLbels(std::vector<std::string> neighborsLabels);

@@ -14,6 +14,8 @@ std::vector<double> makeDiffrencesVector(std::vector<double> &p, std::vector<dou
 class DistanceCalculator {
 public:
     virtual double calculateDistance(std::vector<double> &v1, std::vector<double> &v2) = 0;
+
+    virtual ~DistanceCalculator() = default;
 };
 
 class MinkowskiDistanceCalculator : public DistanceCalculator {

@@ -6,14 +6,22 @@
 #include "knn.h"
 using namespace std;
 
-//for MIN and CHB
-int p = 2;
-
 //init func of knn, inherited from DistanceVector withe the input vector
 knn::knn(int k, vector<vector<double>> &X,vector<string> &y, DistanceCalculator *distance, vector<double> input_vec){
     knnK = k;
     knnX = X;
     knnY = y;
+    dis = distance;
+    t = input_vec;
+}
+
+knn::knn(vector<vector<double>> &X,vector<string> &y){
+    knnX = X;
+    knnY = y;
+}
+
+void knn::prepareKnn(int k, DistanceCalculator *distance, vector<double> input_vec){
+    knnK = k;
     dis = distance;
     t = input_vec;
 }
@@ -35,7 +43,7 @@ vector<string> knn::neighborsLabels(vector<double>  distances){
      for (int i=0;i<knnY.size();i++){
          indexes.push_back(i);
      }
-    //inner func to sort by compering the distances
+    //inner func to sort by comparing the distances
      auto compare = [&](int i, int j){
         if(distances[i]<distances[j]){
             return true;
@@ -46,6 +54,12 @@ vector<string> knn::neighborsLabels(vector<double>  distances){
      
      //push to vector the k tags that nearest to self.vec 
      vector<string> neighborsLabels;
+
+     if (knnK > indexes.size()) {
+         puts("warning: k was too big; reduced to size of input");
+         knnK = indexes.size();
+     }
+
      for(int i=0;i<knnK;i++){
          neighborsLabels.push_back(knnY[indexes[i]]);
      }
@@ -55,7 +69,7 @@ vector<string> knn::neighborsLabels(vector<double>  distances){
 //return the tag that appeared the most times
 string knn::getBetterLbels(vector<string> neighborsLabels){
      unordered_map<string, int> umap;
-    for(string label:neighborsLabels){
+    for(string& label:neighborsLabels){
         // If key not found in map iterator
         if (umap.find(label) == umap.end()){
             umap[label]=1;

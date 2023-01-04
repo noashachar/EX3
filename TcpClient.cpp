@@ -6,6 +6,42 @@
 #include <unistd.h>
 #include <string.h>
 #include "TcpClient.h"
+#include "utils.h"
+
+
+bool is_valid_ipv4(const std::string& ip_address) {
+    // Make sure the IP address is not empty
+    if (ip_address.empty()) {
+        return false;
+    }
+
+    // Check if the IP address consists of four octets separated by dots
+    int num_dots = 0;
+    for (char c : ip_address) {
+        if (c == '.') {
+            num_dots++;
+        } else if (!isdigit(c)) {
+            return false;
+        }
+    }
+    if (num_dots != 3) {
+        return false;
+    }
+
+    // Split the IP address into its octets
+    int octet1, octet2, octet3, octet4;
+    int num_octets = sscanf(ip_address.c_str(), "%d.%d.%d.%d", &octet1, &octet2, &octet3, &octet4);
+
+    // Make sure we parsed exactly four octets
+    if (num_octets != 4) {
+        return false;
+    }
+
+    // Make sure each octet is in the correct range (0-255)
+    return octet1 >= 0 && octet1 <= 255 && octet2 >= 0 && octet2 <= 255 && octet3 >= 0 && octet3 <= 255 && octet4 >= 0 && octet4 <= 255;
+}
+
+
 
 using namespace std;
 //"127.0.0.1"
@@ -87,22 +123,27 @@ void TcpClient::closeConn() {
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
-        perror("wrong number of args");
+        cout << "error: wrong number of args" << endl;
         return 1;
     }
     int port;
     try {
         port = stoi(argv[2]);
         if (port <= 0 || port >= 65536) {
-            perror("port out of range");
+            cout << "error: port out of range" << endl;
             return 2;
         }
     }
     catch (exception &) {
-        perror("invalid port");
+        cout << "error: invalid port" << endl;
         return 35;
     }
-    TcpClient c(argv[1], port);
+    string ip = argv[1];
+    if (!is_valid_ipv4(ip)) {
+        cout << "error: <" << ip << "> is not a valid ipv4 address" << endl;
+        return 93;
+    }
+    TcpClient c(ip.c_str(), port);
     if (!c.conn()) {
         perror("could not connect to server");
         return 44;

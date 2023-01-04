@@ -11,15 +11,13 @@ class TcpClient
     private:
         const char* ip_address;
         int sock;
-        std::string response_data = "";
         int port_no;
         struct sockaddr_in sin;
 
     public:
-        std::string getDataFromUser();
         TcpClient(const char* addr, const int p);
         bool conn();
-        bool send_data(std::string data);
+        bool sendData(std::string data);
         std::string receive(int);
         void closeConn();
 };

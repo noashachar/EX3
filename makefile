@@ -1,9 +1,9 @@
-all: server TcpClient
+all: server client
 
-TcpClient: TcpClient.cpp TcpClient.h
-	 g++ -std=c++11 TcpClient.cpp -o TcpClient.out
+client: TcpClient.cpp TcpClient.h
+	 g++ -std=c++11 TcpClient.cpp -o client.out
 
-TcpClient.o: TcpClient.cpp
+client.o: TcpClient.cpp
 	 g++ -std=c++11 -c TcpClient.cpp
 
 server: server.o distances.o utils.o knn.o

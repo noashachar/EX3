@@ -147,7 +147,7 @@ int main(int argc, char *argv[]) {
         perror("file invalid");
         return -1;
     }
-    knn prediction_x(X, y);
+    Knn prediction_x(X, y);
     //get port
     int server_port;
     try {

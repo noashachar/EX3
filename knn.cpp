@@ -7,7 +7,7 @@
 using namespace std;
 
 //init func of knn, inherited from DistanceVector withe the input vector
-knn::knn(int k, vector<vector<double>> &X,vector<string> &y, DistanceCalculator *distance, vector<double> input_vec){
+Knn::Knn(int k, vector<vector<double>> &X,vector<string> &y, DistanceCalculator *distance, vector<double> input_vec){
     knnK = k;
     knnX = X;
     knnY = y;
@@ -15,12 +15,12 @@ knn::knn(int k, vector<vector<double>> &X,vector<string> &y, DistanceCalculator 
     t = input_vec;
 }
 
-knn::knn(vector<vector<double>> &X,vector<string> &y){
+Knn::Knn(vector<vector<double>> &X,vector<string> &y){
     knnX = X;
     knnY = y;
 }
 
-void knn::prepareKnn(int k, DistanceCalculator *distance, vector<double> input_vec){
+void Knn::prepareKnn(int k, DistanceCalculator *distance, vector<double> input_vec){
     knnK = k;
     dis = distance;
     t = input_vec;
@@ -28,7 +28,7 @@ void knn::prepareKnn(int k, DistanceCalculator *distance, vector<double> input_v
 
 //return Distances between self vector to data vectors as a arr
 //by the name of the distance func that required from the terminal
-vector<double> knn::getDistances(){
+vector<double> Knn::getDistances(){
     vector<double> distances;
     for(vector<double>x: knnX ){
         double dist = dis->calculateDistance(x, t);
@@ -38,7 +38,7 @@ vector<double> knn::getDistances(){
 }
 
 //return vector of the k tags that nearest to self.vec  
-vector<string> knn::neighborsLabels(vector<double>  distances){
+vector<string> Knn::neighborsLabels(vector<double>  distances){
      vector<int> indexes;
      for (int i=0;i<knnY.size();i++){
          indexes.push_back(i);
@@ -67,7 +67,7 @@ vector<string> knn::neighborsLabels(vector<double>  distances){
 }
 
 //return the tag that appeared the most times
-string knn::getBetterLbels(vector<string> neighborsLabels){
+string Knn::getBetterLbels(vector<string> neighborsLabels){
      unordered_map<string, int> umap;
     for(string& label:neighborsLabels){
         // If key not found in map iterator

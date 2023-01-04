@@ -9,7 +9,7 @@
 #include <string>
 #include "distances.h"
 
-class knn {
+class Knn {
     protected:
         int knnK;
         std::vector<std::vector<double>> knnX;
@@ -17,8 +17,8 @@ class knn {
         DistanceCalculator *dis;
         std::vector<double> t;
     public:
-    knn(int k, std::vector<std::vector<double>> &X,std::vector<std::string> &y, DistanceCalculator *distance, std::vector<double> input_vec);
-    knn(std::vector<std::vector<double>> &X,std::vector<std::string> &y);
+    Knn(int k, std::vector<std::vector<double>> &X,std::vector<std::string> &y, DistanceCalculator *distance, std::vector<double> input_vec);
+    Knn(std::vector<std::vector<double>> &X,std::vector<std::string> &y);
     void prepareKnn(int k, DistanceCalculator *distance, std::vector<double> input_vec);
     std::vector<double> getDistances();
     std::vector<std::string> neighborsLabels(std::vector<double> distances);

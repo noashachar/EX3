@@ -5,7 +5,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
-#include "Server.h"
+#include "server.h"
 #include <vector>
 #include "utils.h"
 #include "distances.h"

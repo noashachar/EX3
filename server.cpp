@@ -59,7 +59,7 @@ bool Server::listenToClient(int n = 5) {
 */
 bool Server::sendData(string data) {
     // Send some data
-    if (send(client_sock, data.c_str(), data.length(), 0) < 0) {
+    if (send(client_sock, data.c_str(), data.length()+1, 0) < 0) {
         perror("Send failed :( ");
         return false;
     }

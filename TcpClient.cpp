@@ -15,6 +15,8 @@ bool is_valid_ipv4(const std::string& ip_address) {
         return false;
     }
 
+    // delme
+
     // Check if the IP address consists of four octets separated by dots
     int num_dots = 0;
     for (char c : ip_address) {
@@ -91,7 +93,7 @@ string readLineFromUser() {
 */
 bool TcpClient::sendData(string data) {
     // Send some data
-    if (send(sock, data.c_str(), strlen(data.c_str()), 0) < 0) {
+    if (send(sock, data.c_str(), data.length()+1, 0) < 0) {
         perror("Send failed");
         return false;
     }
